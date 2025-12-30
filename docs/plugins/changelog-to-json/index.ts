@@ -44,7 +44,7 @@ function parseMd2Json(logMd: string) {
     };
   });
 
-  return logs;
+  return logs.filter(item => Object.keys(item.log).length);
 }
 
 /**
@@ -60,7 +60,10 @@ function parseLogByType(logBlock: string) {
     if (matches.length > 0) {
       const logBlock = matches.map((match) => match[1]).join('\n');
       const entries = extractLogEntries(logBlock);
-      logs[type] = groupLogByComponent(entries);
+      const groupLog = groupLogByComponent(entries);
+      if (groupLog.length) {
+        logs[type] = groupLog;
+      }
     }
   });
 
